@@ -9,6 +9,10 @@ import {
     NavbarMenuItem,
     Link,
     Button,
+    Dropdown,
+    DropdownTrigger,
+    DropdownMenu,
+    DropdownItem,
 } from "@nextui-org/react";
 
 export default function App() {
@@ -44,46 +48,59 @@ export default function App() {
                         About
                     </Link>
                 </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        News
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Culture
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Sport
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Technology
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Health
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Travel
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link href="#" color="foreground">
-                        Education
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Environment
-                    </Link>
-                </NavbarItem>
+
+                <Dropdown>
+                    <NavbarItem>
+                        <DropdownTrigger>
+                            <Button
+                                disableRipple
+                                className="p-0 text-md bg-transparent data-[hover=true]:bg-transparent"
+                                radius="sm"
+                                variant="light"
+                            >
+                                Sections
+                            </Button>
+                        </DropdownTrigger>
+                    </NavbarItem>
+                    <DropdownMenu
+                        aria-label="News Sections"
+                        className="w-[340px]"
+                        itemClasses={{
+                            base: "gap-4",
+                        }}
+                    >
+                        <DropdownItem key="news" description="News">
+                            News
+                        </DropdownItem>
+                        <DropdownItem key="culture" description="Culture">
+                            Culture
+                        </DropdownItem>
+                        <DropdownItem key="sport" description="Sport">
+                            Sport
+                        </DropdownItem>
+                        <DropdownItem key="news" description="News">
+                            News
+                        </DropdownItem>
+                        <DropdownItem key="tech" description="Technology">
+                            Technology
+                        </DropdownItem>
+                        <DropdownItem key="health" description="Health">
+                            Health
+                        </DropdownItem>
+                        <DropdownItem key="travel" description="Travel">
+                            Travel
+                        </DropdownItem>
+                        <DropdownItem key="edu" description="Education">
+                            Education
+                        </DropdownItem>
+                        <DropdownItem
+                            key="environment"
+                            description="Environment"
+                        >
+                            Environment
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem className="hidden lg:flex">
