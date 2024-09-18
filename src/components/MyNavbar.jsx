@@ -78,9 +78,6 @@ export default function App() {
                         <DropdownItem key="sport" description="Sport">
                             Sport
                         </DropdownItem>
-                        <DropdownItem key="news" description="News">
-                            News
-                        </DropdownItem>
                         <DropdownItem key="tech" description="Technology">
                             Technology
                         </DropdownItem>
