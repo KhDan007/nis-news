@@ -43,6 +43,15 @@ function App() {
                     </div>
                 </section>
             </div>
+
+            <div className="footer">
+                <div className="footer__top text-center text-4xl md:text-5xl lg:text-6xl text-white py-6 md:py-8 lg:py-10 bg-red-600">
+                    NEWS
+                </div>
+                <div className="footer__bottom">
+                    
+                </div>
+            </div>
         </>
     );
 }
