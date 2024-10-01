@@ -2,7 +2,7 @@ import MyCard from "./MyCard";
 
 export const Home = () => {
     return (
-        <div className="container mx-auto px-4">
+        <main className="container mx-auto px-4">
             <section className="mostread">
                 <h2 className="text-2xl text-center py-2 bg-red-600 rounded-xl text-slate-100 mb-6">
                     Most Read
@@ -38,6 +38,6 @@ export const Home = () => {
                     />
                 </div>
             </section>
-        </div>
+        </main>
     );
 };

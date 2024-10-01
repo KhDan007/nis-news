@@ -7,13 +7,14 @@ import {
     NavbarMenuToggle,
     NavbarMenu,
     NavbarMenuItem,
-    Link,
+    Link as NextLink,
     Button,
     Dropdown,
     DropdownTrigger,
     DropdownMenu,
     DropdownItem,
 } from "@nextui-org/react";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function App() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -37,16 +38,16 @@ export default function App() {
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     className="sm:hidden"
                 />
-                <NavbarBrand as={Link} href="/">
+                <NavbarBrand as={RouterLink} to="/">
                     <p className="text-red-600 font-bold text-inherit">NEWS</p>
                 </NavbarBrand>
             </NavbarContent>
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem>
-                    <Link color="foreground" href="#">
+                    <RouterLink color="foreground" to="/about">
                         About
-                    </Link>
+                    </RouterLink>
                 </NavbarItem>
 
                 <Dropdown>
@@ -101,10 +102,15 @@ export default function App() {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem className="hidden lg:flex">
-                    <Link href="/login">Login</Link>
+                    <RouterLink to="/login">Login</RouterLink>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button as={Link} color="danger" href="/signup" variant="flat">
+                    <Button
+                        as={RouterLink}
+                        color="danger"
+                        to="/signup"
+                        variant="flat"
+                    >
                         Sign Up
                     </Button>
                 </NavbarItem>
@@ -112,14 +118,14 @@ export default function App() {
             <NavbarMenu>
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link
+                        <NextLink
                             color="foreground"
                             className="w-full"
                             href="#"
                             size="lg"
                         >
                             {item}
-                        </Link>
+                        </NextLink>
                     </NavbarMenuItem>
                 ))}
             </NavbarMenu>
