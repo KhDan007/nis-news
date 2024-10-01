@@ -1,6 +1,7 @@
-require('dotenv').config();
-const express = require('express');
-const connectDB = require('./config/db');
+require("dotenv").config();
+const express = require("express");
+const connectDB = require("./config/db");
+const writerRoutes = require("./routes/writerRoutes");
 
 // Import routes
 // const writerRoutes = require('./routes/writerRoutes');
@@ -16,7 +17,11 @@ connectDB();
 app.use(express.json()); // Parse JSON data
 
 // API Routes
-// app.use('/api/writers', writerRoutes);
+app.get("/", (req, res) => {
+    res.send("Welcome to the API!");
+});
+
+app.use("/api/writers", writerRoutes);
 // app.use('/api/articles', articleRoutes);
 // app.use('/api/comments', commentRoutes);
 
