@@ -1,27 +1,117 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Input } from "@nextui-org/react";
+import { ErrorPopup } from "./ErrorPopup";
 
 export const MyForm = () => {
+    const [errorMessage, setErrorMessage] = useState("");
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        mode: "onBlur",
+    });
+
     const onSubmit = (data) => console.log(data);
 
-    console.log(watch("example")); // watch input value by passing the name of it
+    const validateForm = () => {
+        if (errors.name) {
+            setErrorMessage("Please enter your full name");
+        } else if (errors.email) {
+            if (errors.email.type === "required") {
+                setErrorMessage("Please enter your email address");
+            } else if (errors.email.type === "pattern") {
+                setErrorMessage("Please enter a valid email address");
+            } else if (errors.email.type === "maxLength") {
+                setErrorMessage("Email address is too long");
+            }
+        } else if (errors.password) {
+            if (errors.password.type === "required") {
+                setErrorMessage("Please enter a password");
+            } else if (errors.password.type === "minLength") {
+                setErrorMessage("Password must be at least 8 characters long");
+            } else if (errors.password.type === "pattern") {
+                setErrorMessage(
+                    "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character"
+                );
+            }
+        }
+    };
+
+    useEffect(() => {
+        validateForm();
+    }, [errors]);
+
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            handleSubmit(onSubmit)();
+        }
+    };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {/* register your input into the hook by invoking the "register" function */}
-            <input defaultValue="test" {...register("example")} />
+        <div className="relative p-4">
+            {errorMessage && (
+                <ErrorPopup
+                    message={errorMessage}
+                    onClose={() => setErrorMessage("")}
+                />
+            )}
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                onKeyDown={handleKeyDown}
+                className="space-y-4"
+            >
+                <Input
+                    type="text"
+                    label="Full Name"
+                    size="lg"
+                    {...register("name", { required: true })}
+                    onBlur={() => validateForm()}
+                />
 
-            {/* include validation with required or other standard HTML validation rules */}
-            <input {...register("exampleRequired", { required: true })} />
-            {/* errors will return when field validation fails  */}
-            {errors.exampleRequired && <span>This field is required</span>}
+                <Input
+                    type="email"
+                    label="Email"
+                    size="lg"
+                    {...register("email", {
+                        required: true,
+                        pattern:
+                            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        maxLength: 100,
+                    })}
+                    onBlur={() => validateForm()}
+                />
 
-            <input type="submit" />
-        </form>
+                <Input
+                    type="password"
+                    label="Password"
+                    size="lg"
+                    {...register("password", {
+                        required: true,
+                        minLength: 8,
+                        pattern:
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    })}
+                    onBlur={() => validateForm()}
+                />
+
+                <button
+                    type="submit"
+                    className="
+                        cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600
+                        text-white px-10 py-3 text-lg rounded-full
+                        shadow-lg transform transition-all duration-300
+                        hover:from-blue-600 hover:to-blue-700
+                        hover:shadow-xl hover:-translate-y-0.5
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
+                        active:shadow-md active:translate-y-0
+                    "
+                >
+                    Submit
+                </button>
+            </form>
+        </div>
     );
 };
