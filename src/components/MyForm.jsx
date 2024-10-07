@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@nextui-org/react";
 import { ErrorPopup } from "./ErrorPopup";
+import Axios from "axios";
 
 export const MyForm = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -41,6 +42,10 @@ export const MyForm = () => {
 
     useEffect(() => {
         validateForm();
+
+        Axios.get("http://localhost:5000/").then((response) => {
+            console.log(response.data);
+        });
     }, [errors]);
 
     const handleKeyDown = (event) => {

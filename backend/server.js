@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
 const writerRoutes = require("./routes/writerRoutes");
+const cors = require("cors");
 
 // Import routes
 // const writerRoutes = require('./routes/writerRoutes');
@@ -15,6 +16,8 @@ connectDB();
 
 // Middleware
 app.use(express.json()); // Parse JSON data
+
+app.use(cors()); // Enable CORS
 
 // API Routes
 app.get("/", (req, res) => {
