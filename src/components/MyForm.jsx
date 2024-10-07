@@ -14,7 +14,23 @@ export const MyForm = () => {
         mode: "onBlur",
     });
 
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = (data) => {
+        console.log(data);
+        Axios.post("http://localhost:5000/api/writers/signup", data, {
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer token123",
+            },
+            timeout: 5000,
+            responseType: "json",
+        })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
 
     const validateForm = () => {
         if (errors.name) {
