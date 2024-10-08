@@ -15,7 +15,7 @@ import {
     DropdownItem,
     Avatar,
 } from "@nextui-org/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link, Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../AuthContext"; // Import useAuth
 
 export default function App() {
@@ -133,6 +133,8 @@ export default function App() {
                             >
                                 <DropdownItem
                                     key="profile"
+                                    as={Link}
+                                    to="/profile"
                                     className="h-14 gap-2"
                                     textValue="Signed in as"
                                 >
