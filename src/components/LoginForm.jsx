@@ -4,7 +4,7 @@ import { Input } from "@nextui-org/react";
 import { ErrorPopup } from "./ErrorPopup";
 import Axios from "axios";
 
-export const MyForm = () => {
+export const LoginForm = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const {
         register,
@@ -63,9 +63,7 @@ export const MyForm = () => {
             });
     };
     const validateForm = () => {
-        if (errors.name) {
-            setErrorMessage("Please enter your full name");
-        } else if (errors.email) {
+        if (errors.email) {
             if (errors.email.type === "required") {
                 setErrorMessage("Please enter your email address");
             } else if (errors.email.type === "pattern") {
@@ -98,7 +96,7 @@ export const MyForm = () => {
     };
 
     return (
-        <div className="relative p-4">
+        <div className="relative">
             {errorMessage && (
                 <ErrorPopup
                     message={errorMessage}
@@ -110,14 +108,6 @@ export const MyForm = () => {
                 onKeyDown={handleKeyDown}
                 className="space-y-4"
             >
-                <Input
-                    type="text"
-                    label="Full Name"
-                    size="lg"
-                    {...register("name", { required: true })}
-                    onBlur={() => validateForm()}
-                />
-
                 <Input
                     type="email"
                     label="Email"
@@ -156,7 +146,7 @@ export const MyForm = () => {
                         active:shadow-md active:translate-y-0
                     "
                 >
-                    Submit
+                    Log in
                 </button>
             </form>
         </div>
