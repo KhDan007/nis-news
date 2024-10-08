@@ -19,9 +19,9 @@ app.use(express.json()); // Parse JSON data
 app.use(cors()); // Enable CORS
 
 // API Routes
-app.get("/", (req, res) => {
-    res.send("Welcome to the API!");
-});
+// app.get("/", (req, res) => {
+//     res.send("Welcome to the API!");
+// });
 
 app.use("/api/writers", writerRoutes);
 app.use('/api/articles', articleRoutes);
