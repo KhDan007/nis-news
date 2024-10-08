@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Signup } from "./components/Signup";
 import { Login } from "./components/Login";
 import { About } from "./components/About";
+import { MostRecent } from "./components/MostRecent";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <MyNavbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/mostrecent" element={<MostRecent />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />

@@ -20,6 +20,7 @@ export default function App() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const menuItems = [
+        "Most recent",
         "About",
         "News",
         "Culture",
@@ -44,6 +45,12 @@ export default function App() {
             </NavbarContent>
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                <NavbarItem>
+                    <RouterLink color="foreground" to="/mostrecent">
+                        Most Recent
+                    </RouterLink>
+                </NavbarItem>
+                
                 <NavbarItem>
                     <RouterLink color="foreground" to="/about">
                         About
