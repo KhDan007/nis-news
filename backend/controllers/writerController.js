@@ -102,6 +102,7 @@ const login = async (req, res) => {
                         name: writer.name,
                         email: writer.email,
                         bio: writer.bio,
+                        createdAt: writer.createdAt,
                     },
                 });
             }

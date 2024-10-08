@@ -136,7 +136,7 @@ export default function App() {
                                     as={Link}
                                     to="/profile"
                                     className="h-14 gap-2"
-                                    textValue="Signed in as"
+                                    aria-label="Signed in as"
                                 >
                                     <p className="font-semibold">
                                         Signed in as
@@ -147,7 +147,7 @@ export default function App() {
                                 </DropdownItem>
                                 <DropdownItem
                                     key="settings"
-                                    textValue="My Settings"
+                                    aria-label="My Settings"
                                 >
                                     My Settings
                                 </DropdownItem>

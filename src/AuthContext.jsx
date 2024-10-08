@@ -1,4 +1,6 @@
+// AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect } from "react";
+import axios from "axios";
 
 const AuthContext = createContext(null);
 
@@ -6,33 +8,43 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const checkUser = async () => {
-            const token = localStorage.getItem("jwtToken");
-            const userData = localStorage.getItem("userData");
-            if (token && userData) {
-                setUser(JSON.parse(userData));
+    const fetchUserProfile = async () => {
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            try {
+                const response = await axios.get(
+                    "http://localhost:5000/api/writers/profile",
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+                setUser(response.data);
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+                localStorage.removeItem("jwtToken");
             }
-            setLoading(false);
-        };
+        }
+        setLoading(false);
+    };
 
-        checkUser();
+    useEffect(() => {
+        fetchUserProfile();
     }, []);
 
-    const login = (token, userData) => {
+    const login = (token) => {
         localStorage.setItem("jwtToken", token);
-        localStorage.setItem("userData", JSON.stringify(userData));
-        setUser(userData);
+        fetchUserProfile();
     };
 
     const logout = () => {
         localStorage.removeItem("jwtToken");
-        localStorage.removeItem("userData");
         setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider
+            value={{ user, login, logout, loading, fetchUserProfile }}
+        >
             {children}
         </AuthContext.Provider>
     );
@@ -45,4 +57,3 @@ export const useAuth = () => {
     }
     return context;
 };
-    
