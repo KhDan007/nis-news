@@ -155,7 +155,7 @@ export default function App() {
                                     key="logout"
                                     color="danger"
                                     onClick={logout}
-                                    textValue="Log Out"
+                                    aria-label="Log Out"
                                 >
                                     Log Out
                                 </DropdownItem>

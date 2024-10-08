@@ -1,12 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
-const writerRoutes = require("./routes/writerRoutes");
 const cors = require("cors");
 
 // Import routes
-// const writerRoutes = require('./routes/writerRoutes');
-// const articleRoutes = require('./routes/articleRoutes');
+const writerRoutes = require('./routes/writerRoutes');
+const articleRoutes = require('./routes/articleRoutes');
 // const commentRoutes = require('./routes/commentRoutes');
 
 const app = express();
@@ -25,7 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/writers", writerRoutes);
-// app.use('/api/articles', articleRoutes);
+app.use('/api/articles', articleRoutes);
 // app.use('/api/comments', commentRoutes);
 
 // Start server
