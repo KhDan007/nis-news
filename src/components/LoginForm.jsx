@@ -16,7 +16,7 @@ export const LoginForm = () => {
 
     const onSubmit = (data) => {
         console.log(data);
-        Axios.post("http://localhost:5000/api/writers/signup", data, {
+        Axios.post("http://localhost:5000/api/writers/login", data, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -66,20 +66,10 @@ export const LoginForm = () => {
         if (errors.email) {
             if (errors.email.type === "required") {
                 setErrorMessage("Please enter your email address");
-            } else if (errors.email.type === "pattern") {
-                setErrorMessage("Please enter a valid email address");
-            } else if (errors.email.type === "maxLength") {
-                setErrorMessage("Email address is too long");
             }
         } else if (errors.password) {
             if (errors.password.type === "required") {
                 setErrorMessage("Please enter a password");
-            } else if (errors.password.type === "minLength") {
-                setErrorMessage("Password must be at least 8 characters long");
-            } else if (errors.password.type === "pattern") {
-                setErrorMessage(
-                    "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character"
-                );
             }
         }
     };
@@ -114,9 +104,6 @@ export const LoginForm = () => {
                     size="lg"
                     {...register("email", {
                         required: true,
-                        pattern:
-                            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                        maxLength: 100,
                     })}
                     onBlur={() => validateForm()}
                 />
@@ -127,9 +114,6 @@ export const LoginForm = () => {
                     size="lg"
                     {...register("password", {
                         required: true,
-                        minLength: 8,
-                        pattern:
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     })}
                     onBlur={() => validateForm()}
                 />
