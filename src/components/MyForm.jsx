@@ -25,23 +25,43 @@ export const MyForm = () => {
         })
             .then((response) => {
                 console.log(response.data);
-                // Assuming the JWT token is in response.data.token
-                if (response.data?.token) {
-                    // Store the token in localStorage
+                if (response.data.token) {
                     localStorage.setItem("jwtToken", response.data.token);
                     console.log("Token stored in localStorage");
-                    // You might want to redirect the user or update the UI here
+                    // Redirect or update UI as needed
                 } else {
                     console.error("Token not found in the response");
+                    setErrorMessage("Signup failed. Please try again.");
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
-                // Handle the error (e.g., show an error message to the user)
-                setErrorMessage("Sign up failed. Please try again.");
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    if (error.response.status === 400) {
+                        setErrorMessage(
+                            error.response.data.message ||
+                                "Signup failed. Please try again."
+                        );
+                        console.error(
+                            error.response.data.message ||
+                                "Signup failed. Please try again."
+                        );
+                    } else {
+                        setErrorMessage("An error occurred. Please try again.");
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    setErrorMessage(
+                        "No response from server. Please try again."
+                    );
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setErrorMessage("An error occurred. Please try again.");
+                }
             });
     };
-
     const validateForm = () => {
         if (errors.name) {
             setErrorMessage("Please enter your full name");
@@ -68,10 +88,6 @@ export const MyForm = () => {
 
     useEffect(() => {
         validateForm();
-
-        Axios.get("http://localhost:5000/").then((response) => {
-            console.log(response.data);
-        });
     }, [errors]);
 
     const handleKeyDown = (event) => {

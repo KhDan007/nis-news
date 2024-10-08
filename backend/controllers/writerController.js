@@ -11,7 +11,9 @@ const signup = async (req, res) => {
         // Check if the writer already exists
         let writer = await Writer.findOne({ email });
         if (writer) {
-            return res.status(400).json({ message: "Writer already exists" });
+            return res
+                .status(400)
+                .json({ message: "This email is already registered" });
         }
 
         // Create a new writer instance
