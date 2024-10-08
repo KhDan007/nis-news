@@ -19,16 +19,26 @@ export const MyForm = () => {
         Axios.post("http://localhost:5000/api/writers/signup", data, {
             headers: {
                 "Content-Type": "application/json",
-                // Authorization: "Bearer token123",
             },
             timeout: 5000,
             responseType: "json",
         })
             .then((response) => {
                 console.log(response.data);
+                // Assuming the JWT token is in response.data.token
+                if (response.data?.token) {
+                    // Store the token in localStorage
+                    localStorage.setItem("jwtToken", response.data.token);
+                    console.log("Token stored in localStorage");
+                    // You might want to redirect the user or update the UI here
+                } else {
+                    console.error("Token not found in the response");
+                }
             })
             .catch((error) => {
                 console.error("Error:", error);
+                // Handle the error (e.g., show an error message to the user)
+                setErrorMessage("Sign up failed. Please try again.");
             });
     };
 
