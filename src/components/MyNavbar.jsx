@@ -13,11 +13,14 @@ import {
     DropdownTrigger,
     DropdownMenu,
     DropdownItem,
+    Avatar,
 } from "@nextui-org/react";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuth } from "../AuthContext"; // Import useAuth
 
 export default function App() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const { user, logout } = useAuth(); // Use the auth context
 
     const menuItems = [
         "Most recent",
@@ -50,7 +53,7 @@ export default function App() {
                         Most Recent
                     </RouterLink>
                 </NavbarItem>
-                
+
                 <NavbarItem>
                     <RouterLink color="foreground" to="/about">
                         About
@@ -108,19 +111,72 @@ export default function App() {
                 </Dropdown>
             </NavbarContent>
             <NavbarContent justify="end">
-                <NavbarItem className="hidden lg:flex">
-                    <RouterLink to="/login">Login</RouterLink>
-                </NavbarItem>
-                <NavbarItem>
-                    <Button
-                        as={RouterLink}
-                        color="danger"
-                        to="/signup"
-                        variant="flat"
-                    >
-                        Sign Up
-                    </Button>
-                </NavbarItem>
+                {user ? (
+                    <>
+                        <Dropdown>
+                            <NavbarItem>
+                                <DropdownTrigger>
+                                    <Avatar
+                                        isBordered
+                                        as="button"
+                                        className="transition-transform"
+                                        color="danger"
+                                        name={user.name}
+                                        size="sm"
+                                        src={user.profilePicture}
+                                    />
+                                </DropdownTrigger>
+                            </NavbarItem>
+                            <DropdownMenu
+                                aria-label="Profile Actions"
+                                variant="flat"
+                            >
+                                <DropdownItem
+                                    key="profile"
+                                    className="h-14 gap-2"
+                                    textValue="Signed in as"
+                                >
+                                    <p className="font-semibold">
+                                        Signed in as
+                                    </p>
+                                    <p className="font-semibold">
+                                        {user.email}
+                                    </p>
+                                </DropdownItem>
+                                <DropdownItem
+                                    key="settings"
+                                    textValue="My Settings"
+                                >
+                                    My Settings
+                                </DropdownItem>
+                                <DropdownItem
+                                    key="logout"
+                                    color="danger"
+                                    onClick={logout}
+                                    textValue="Log Out"
+                                >
+                                    Log Out
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </>
+                ) : (
+                    <>
+                        <NavbarItem className="hidden lg:flex">
+                            <RouterLink to="/login">Login</RouterLink>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Button
+                                as={RouterLink}
+                                color="danger"
+                                to="/signup"
+                                variant="flat"
+                            >
+                                Sign Up
+                            </Button>
+                        </NavbarItem>
+                    </>
+                )}
             </NavbarContent>
             <NavbarMenu>
                 {menuItems.map((item, index) => (

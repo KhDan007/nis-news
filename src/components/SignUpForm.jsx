@@ -3,9 +3,14 @@ import { useForm } from "react-hook-form";
 import { Input } from "@nextui-org/react";
 import { ErrorPopup } from "./ErrorPopup";
 import Axios from "axios";
+import { useAuth } from '../AuthContext'; // Import useAuth
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 export const SignUpForm = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const { login } = useAuth(); // Use the login function from AuthContext
+    const navigate = useNavigate(); // Use navigate for redirection
+
     const {
         register,
         handleSubmit,
@@ -15,7 +20,6 @@ export const SignUpForm = () => {
     });
 
     const onSubmit = (data) => {
-        console.log(data);
         Axios.post("http://localhost:5000/api/writers/signup", data, {
             headers: {
                 "Content-Type": "application/json",
@@ -25,20 +29,20 @@ export const SignUpForm = () => {
         })
             .then((response) => {
                 console.log(response.data);
-                if (response.data.token) {
-                    localStorage.setItem("jwtToken", response.data.token);
-                    console.log("Token stored in localStorage");
-                    // Redirect or update UI as needed
+                if (response.data.token && response.data.user) {
+                    // Use the login function from AuthContext
+                    login(response.data.token, response.data.user);
+                    console.log("User signed up and logged in");
+                    // Redirect to home page or dashboard
+                    navigate('/');
                 } else {
-                    console.error("Token not found in the response");
+                    console.error("Token or user data not found in the response");
                     setErrorMessage("Signup failed. Please try again.");
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
                     if (error.response.status === 400) {
                         setErrorMessage(
                             error.response.data.message ||
@@ -52,12 +56,10 @@ export const SignUpForm = () => {
                         setErrorMessage("An error occurred. Please try again.");
                     }
                 } else if (error.request) {
-                    // The request was made but no response was received
                     setErrorMessage(
                         "No response from server. Please try again."
                     );
                 } else {
-                    // Something happened in setting up the request that triggered an Error
                     setErrorMessage("An error occurred. Please try again.");
                 }
             });

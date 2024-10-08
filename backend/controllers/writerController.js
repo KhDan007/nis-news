@@ -2,7 +2,6 @@ const Writer = require("../models/Writer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Register a new writer
 const signup = async (req, res) => {
     console.log("req.body", req.body);
     const { name, email, password, bio } = req.body;
@@ -44,7 +43,15 @@ const signup = async (req, res) => {
             { expiresIn: "1h" },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                res.json({
+                    token: token,
+                    user: {
+                        id: writer._id,
+                        name: writer.name,
+                        email: writer.email,
+                        bio: writer.bio,
+                    },
+                });
             }
         );
     } catch (err) {
@@ -87,7 +94,16 @@ const login = async (req, res) => {
             { expiresIn: "1h" },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                // Send token and user data
+                res.json({
+                    token: token,
+                    user: {
+                        id: writer._id,
+                        name: writer.name,
+                        email: writer.email,
+                        bio: writer.bio,
+                    },
+                });
             }
         );
     } catch (err) {

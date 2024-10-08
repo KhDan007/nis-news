@@ -3,9 +3,14 @@ import { useForm } from "react-hook-form";
 import { Input } from "@nextui-org/react";
 import { ErrorPopup } from "./ErrorPopup";
 import Axios from "axios";
+import { useAuth } from "../AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const { login } = useAuth();
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -15,7 +20,6 @@ export const LoginForm = () => {
     });
 
     const onSubmit = (data) => {
-        console.log(data);
         Axios.post("http://localhost:5000/api/writers/login", data, {
             headers: {
                 "Content-Type": "application/json",
@@ -26,9 +30,11 @@ export const LoginForm = () => {
             .then((response) => {
                 console.log(response.data);
                 if (response.data.token) {
-                    localStorage.setItem("jwtToken", response.data.token);
-                    console.log("Token stored in localStorage");
-                    // Redirect or update UI as needed
+                    // Use the login function from AuthContext
+                    login(response.data.token, response.data.user);
+                    console.log("User logged in and token stored");
+                    // Redirect to home page or dashboard
+                    navigate("/");
                 } else {
                     console.error("Token not found in the response");
                     setErrorMessage("Signup failed. Please try again.");

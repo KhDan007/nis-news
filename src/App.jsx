@@ -6,22 +6,41 @@ import { Signup } from "./components/Signup";
 import { Login } from "./components/Login";
 import { About } from "./components/About";
 import { MostRecent } from "./components/MostRecent";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { Profile } from "./components/Profile";
+import { AuthProvider } from "./AuthContext";
+
+function AppContent() {
+    return (
+        <div className="flex flex-col min-h-screen">
+            <MyNavbar />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/mostrecent" element={<MostRecent />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+
+                <Route element={<ProtectedRoute />}>
+                    {/* Add a protected route for the user profile */}
+                    <Route path="/profile" element={<Profile />} />
+                </Route>
+
+                {/* 404 Route */}
+                {/* <Route path="*" element={<NotFound />} /> */}
+            </Routes>
+            <Footer />
+        </div>
+    );
+}
 
 function App() {
     return (
-        <Router>
-            <div className="flex flex-col min-h-screen">
-                <MyNavbar />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/mostrecent" element={<MostRecent />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
-                <Footer />
-            </div>
-        </Router>
+        <AuthProvider>
+            <Router>
+                <AppContent />
+            </Router>
+        </AuthProvider>
     );
 }
 
