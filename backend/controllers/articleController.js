@@ -25,6 +25,22 @@ const createArticle = async (req, res) => {
     }
 };
 
+const getOneArticle = async (req, res) => {
+    try {
+        const article = await Article.findById(req.params.id);
+        if (!article) {
+            return res.status(404).send("Article not found");
+        }
+
+        // Increment the view count
+        article.views += 1;
+        await article.save();
+
+        res.json(article);
+    } catch (error) {
+        res.status(500).send("Server error");
+    }
+};
 const getArticles = async (req, res) => {
     try {
         const {
@@ -61,7 +77,7 @@ const getArticles = async (req, res) => {
         // Filter by date range
         if (startDate || endDate) {
             query.createdAt = {};
-            
+
             if (startDate) {
                 query.createdAt.$gte = new Date(startDate);
             }
@@ -94,7 +110,22 @@ const getArticles = async (req, res) => {
     }
 };
 
+// Example function to get the most read articles
+const getMostReadArticles = async (req, res) => {
+    try {
+        const mostReadArticles = await Article.find()
+            .sort({ views: -1 }) // Sort by views in descending order
+            .limit(req.params.limit); // Limit the number of articles returned
+        return mostReadArticles;
+    } catch (error) {
+        console.error('Error fetching most read articles:', error);
+        return [];
+    }
+}
+
 module.exports = {
     createArticle,
     getArticles,
+    getOneArticle,
+    getMostReadArticles
 };
