@@ -115,17 +115,21 @@ const getMostReadArticles = async (req, res) => {
     try {
         const mostReadArticles = await Article.find()
             .sort({ views: -1 }) // Sort by views in descending order
-            .limit(req.params.limit); // Limit the number of articles returned
-        return mostReadArticles;
+            .limit(6); // Limit the number of articles returned
+
+        res.json(mostReadArticles); // Send the response
     } catch (error) {
-        console.error('Error fetching most read articles:', error);
-        return [];
+        console.error("Error fetching most read articles:", error);
+        res.status(500).json({
+            message: "Error fetching most read articles",
+            error: error.message,
+        });
     }
-}
+};
 
 module.exports = {
     createArticle,
     getArticles,
     getOneArticle,
-    getMostReadArticles
+    getMostReadArticles,
 };

@@ -6,12 +6,18 @@ import {
     CardFooter,
 } from "@nextui-org/react";
 
-function MyCard({ title, author, date, img, category }) {
+function MyCard({ id, title, author, date, img, category }) {
+    const dateFormatter = new Intl.DateTimeFormat("en-US", {
+        month: "long",
+        day: "2-digit",
+        year: "numeric",
+    });
+
     return (
         <Card
             isPressable
             onPress={() => {
-                console.log("card with title: '" + title + "' was pressed");
+                console.log("card with id: '" + id + "' was pressed");
             }}
             className="py-4"
         >
@@ -27,7 +33,7 @@ function MyCard({ title, author, date, img, category }) {
             </CardHeader>
             <CardBody className="pb-0 pt-2 px-4 flex-col items-start">
                 <p className="text-sm">
-                    By {author} - {date}
+                    By {author} - {dateFormatter.format(new Date(date))}
                 </p>
                 <h4 className="font-bold text-large">{title}</h4>
             </CardBody>
