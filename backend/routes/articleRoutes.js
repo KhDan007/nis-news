@@ -9,7 +9,7 @@ const {
 } = require("../controllers/articleController");
 const auth = require("../middleware/authMiddleware");
 
-router.get("/mostread", getMostReadArticles);
+router.get("/mostread/:limit", getMostReadArticles);
 router.get("/", getArticles);
 router.post("/create", auth, createArticle);
 router.get("/:id", auth, getOneArticle);

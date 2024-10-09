@@ -9,7 +9,7 @@ export const MostRead = () => {
         const fetchArticles = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:5000/api/articles/mostread"
+                    "http://localhost:5000/api/articles/mostread/3"
                 );
 
                 setArticles(response.data);

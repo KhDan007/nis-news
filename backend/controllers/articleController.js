@@ -115,7 +115,7 @@ const getMostReadArticles = async (req, res) => {
     try {
         const mostReadArticles = await Article.find()
             .sort({ views: -1 }) // Sort by views in descending order
-            .limit(6); // Limit the number of articles returned
+            .limit(req.params.limit); // Limit the number of articles returned
 
         res.json(mostReadArticles); // Send the response
     } catch (error) {
