@@ -5,8 +5,10 @@ import {
     Image,
     CardFooter,
 } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 
 function MyCard({ id, title, author, date, img, category }) {
+    const navigate = useNavigate();
     const dateFormatter = new Intl.DateTimeFormat("en-US", {
         month: "long",
         day: "2-digit",
@@ -18,6 +20,7 @@ function MyCard({ id, title, author, date, img, category }) {
             isPressable
             onPress={() => {
                 console.log("card with id: '" + id + "' was pressed");
+                navigate(`/articles/${id}`);
             }}
             className="py-4"
         >

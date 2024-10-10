@@ -1,6 +1,8 @@
 const Writer = require("../models/Writer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Types;
 
 const signup = async (req, res) => {
     console.log("req.body", req.body);
@@ -128,8 +130,29 @@ const getWriterProfile = async (req, res) => {
     }
 };
 
+const getOneWriter = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Check if id is a valid ObjectId
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid writer ID" });
+        }
+
+        const writer = await Writer.findById(id);
+        if (!writer) {
+            return res.status(404).json({ message: "Writer not found" });
+        }
+        res.json(writer);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error");
+    }
+};
+
 module.exports = {
     signup,
     login,
     getWriterProfile,
+    getOneWriter,
 };
