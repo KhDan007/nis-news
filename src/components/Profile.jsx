@@ -1,16 +1,9 @@
 // Profile.jsx
 import React, { useEffect } from "react";
 import { useAuth } from "../AuthContext";
-import {
-    Card,
-    CardBody,
-    CardHeader,
-    Avatar,
-    Divider,
-    Spinner,
-    Button,
-} from "@nextui-org/react";
-import { FaEnvelope, FaUser, FaCalendarAlt, FaPen } from "react-icons/fa";
+import { Card, CardBody, Spinner } from "@nextui-org/react";
+import { FaUser, FaPhoneAlt } from "react-icons/fa";
+import { MdOutlineMailOutline } from "react-icons/md";
 
 export const Profile = () => {
     const { user, loading, fetchUserProfile } = useAuth();
@@ -42,79 +35,43 @@ export const Profile = () => {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-100 to-pink-100 p-4">
-            <Card className="max-w-[700px] w-full">
-                <CardHeader className="flex gap-3">
-                    <Avatar
-                        src={
-                            user.avatar ||
-                            "https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                        }
-                        size="lg"
-                    />
-                    <div className="flex flex-col">
-                        <p className="text-md">Profile</p>
-                        <p className="text-small text-default-500">
-                            Welcome back, {user.name}!
-                        </p>
-                    </div>
-                </CardHeader>
-                <Divider />
-                <CardBody>
-                    <div className="space-y-4">
-                        <div className="flex items-center space-x-4">
-                            <FaUser className="text-2xl text-default-500" />
-                            <div>
-                                <p className="text-small text-default-500">
-                                    Full Name
-                                </p>
-                                <p className="text-md">{user.name}</p>
-                            </div>
+        <main>
+            <div className="container mx-auto p-4 h-full">
+                <div className="relative">
+                    <div className="bg-gray-300 rounded-lg rounded-b-none w-full h-28"></div>
+                    <div className="bg-gray-100 rounded-lg rounded-t-none w-full pt-16 md:pt-16 pl-8 md:pl-16 pb-4 mb-4">
+                        <div className="flex items-center justify-center avatar overflow-hidden absolute rounded-full w-24 h-24 md:w-32 md:h-32 bg-white left-8 md:left-14 top-16 md:top-10 z-10">
+                            {/* There will be the avatar of the user */}
+                            {user?.avatar ? (
+                                <img src={user.avatar} alt="" />
+                            ) : (
+                                <FaUser className="w-11/12 h-full" />
+                            )}
                         </div>
-                        <div className="flex items-center space-x-4">
-                            <FaEnvelope className="text-2xl text-default-500" />
-                            <div>
-                                <p className="text-small text-default-500">
-                                    Email
-                                </p>
-                                <p className="text-md">{user.email}</p>
-                            </div>
-                        </div>
-                        {user.createdAt && (
-                            <div className="flex items-center space-x-4">
-                                <FaCalendarAlt className="text-2xl text-default-500" />
-                                <div>
-                                    <p className="text-small text-default-500">
-                                        Joined
-                                    </p>
-                                    <p className="text-md">
-                                        {new Date(
-                                            user.createdAt
-                                        ).toLocaleDateString()}
-                                    </p>
-                                </div>
-                            </div>
-                        )}
-                        {user.bio && (
-                            <div className="flex items-start space-x-4">
-                                <FaPen className="text-2xl text-default-500 mt-1" />
-                                <div>
-                                    <p className="text-small text-default-500">
-                                        Bio
-                                    </p>
-                                    <p className="text-md">{user.bio}</p>
-                                </div>
-                            </div>
-                        )}
+                        <h3 className="text-xl md:text-2xl">
+                            {user?.name || "Username"}
+                        </h3>
+                        <h4 className="text-sm md:text-lg">
+                            {user?.type || "Writer"}
+                        </h4>
                     </div>
-                </CardBody>
-                <Divider />
-                <CardBody>
-                    <Button color="primary" className="w-full">
-                        Edit Profile
-                    </Button>
-                </CardBody>
-            </Card>
-        </div>
+                </div>
+                <div className="bg-gray-100 p-6 rounded-lg pl-8 md:pl-16">
+                    <p className="text-xl md:text-2xl">About</p>
+                    <h3 className="text-md md:text-lg flex items-center mt-3">
+                        <FaUser className="inline mr-2" />
+                        {user?.bio || "bio"}
+                    </h3>
+                    <h3 className="text-md md:text-lg flex items-center mt-3">
+                        <MdOutlineMailOutline className="inline mr-2" />
+                        {user?.email || "email"}
+                    </h3>
+                    <h3 className="text-md md:text-lg flex items-center mt-3">
+                        <FaPhoneAlt className="inline mr-2" />
+                        {user?.phone || "+7 (999) 999 99-99"}
+                    </h3>
+                </div>
+            </div>
+        </main>
     );
 };
