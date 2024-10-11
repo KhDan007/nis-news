@@ -1,8 +1,10 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import SimpleMDE from "react-simplemde-editor";
 import { useNavigate } from "react-router-dom";
 import "easymde/dist/easymde.min.css";
 import { usePrompt } from "../hooks/usePrompt";
+
+const MemoizedSimpleMDE = React.memo(SimpleMDE);
 
 export const ArticleCreate = () => {
     const [title, setTitle] = useState("");
@@ -26,10 +28,13 @@ export const ArticleCreate = () => {
         setIsFormDirty(true);
     };
 
-    const handleContentChange = useCallback((value) => {
-        setContent(value);
-        setIsFormDirty(true);
-    }, []);
+    const handleContentChange = useCallback(
+        (value) => {
+            setContent(value);
+            setIsFormDirty(true);
+        },
+        [setContent, setIsFormDirty]
+    );
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -66,27 +71,30 @@ export const ArticleCreate = () => {
         };
     }, [isFormDirty]);
 
-    const editorOptions = {
-        spellChecker: false,
-        autofocus: false,
-        status: false, // Disable the status bar at the bottom
-        toolbar: [
-            "bold",
-            "italic",
-            "heading",
-            "|",
-            "quote",
-            "unordered-list",
-            "ordered-list",
-            "|",
-            "link",
-            "image",
-            "|",
-            "preview",
-            "side-by-side",
-            "fullscreen",
-        ],
-    };
+    const memoizedEditorOptions = useMemo(
+        () => ({
+            spellChecker: false,
+            autofocus: false,
+            status: false,
+            toolbar: [
+                "bold",
+                "italic",
+                "heading",
+                "|",
+                "quote",
+                "unordered-list",
+                "ordered-list",
+                "|",
+                "link",
+                "image",
+                "|",
+                "preview",
+                "side-by-side",
+                "fullscreen",
+            ],
+        }),
+        []
+    );
 
     return (
         <main>
@@ -113,10 +121,10 @@ export const ArticleCreate = () => {
                             required
                         />
                     </div>
-                    <SimpleMDE
+                    <MemoizedSimpleMDE
                         value={content}
                         onChange={handleContentChange}
-                        options={editorOptions}
+                        options={memoizedEditorOptions}
                     />
                     <button type="submit">Save Article</button>
                 </form>
