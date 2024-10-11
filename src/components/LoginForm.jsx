@@ -28,7 +28,6 @@ export const LoginForm = () => {
             responseType: "json",
         })
             .then((response) => {
-                console.log(response.data);
                 if (response.data.token) {
                     // Use the login function from AuthContext
                     login(response.data.token, response.data.user);
