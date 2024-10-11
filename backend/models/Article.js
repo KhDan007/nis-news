@@ -15,9 +15,16 @@ const articleSchema = new Schema({
         ref: "Writer",
         required: true,
     },
+
+    imageUrl: {
+        type: String,
+        required: true,
+    },
+
     tags: [
         {
             type: String,
+            required: true,
         },
     ],
     comments: [

@@ -37,10 +37,10 @@ export const MostRead = () => {
                                 author={article.authorId.name}
                                 date={article.publishedAt}
                                 img={
-                                    article.image ||
+                                    article.imageUrl ||
                                     "https://via.placeholder.com/150"
                                 }
-                                category={article.tags.join(", ") || "General"}
+                                category={article.tags[0] || "General"}
                             />
                         );
                     })

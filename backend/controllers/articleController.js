@@ -2,7 +2,7 @@ const Article = require("../models/Article");
 
 const createArticle = async (req, res) => {
     try {
-        const { title, content, tags } = req.body;
+        const { title, content, tags, imageUrl } = req.body;
         const authorId = req.writer.id; // This comes from the auth middleware
 
         const newArticle = new Article({
@@ -10,6 +10,7 @@ const createArticle = async (req, res) => {
             content,
             authorId,
             tags,
+            imageUrl,
             publishedAt: new Date(), // Set to current date if you want to publish immediately
         });
 
@@ -38,6 +39,7 @@ const getOneArticle = async (req, res) => {
 
         res.json(article);
     } catch (error) {
+        console.error(error);
         res.status(500).send("Server error");
     }
 };
