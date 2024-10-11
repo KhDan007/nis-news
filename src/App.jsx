@@ -10,6 +10,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { Profile } from "./components/Profile";
 import { AuthProvider } from "./AuthContext";
 import { ArticlePage } from "./components/ArticlePage";
+import { ArticleCreate } from "./components/ArticleCreate";
 
 function AppContent() {
     return (
@@ -26,6 +27,10 @@ function AppContent() {
                     {/* Add a protected route for the user profile */}
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/articles/:id" element={<ArticlePage />} />
+                    <Route
+                        path="/articles/create"
+                        element={<ArticleCreate />}
+                    />
                 </Route>
 
                 {/* 404 Route */}

@@ -1,4 +1,5 @@
 import React from "react";
+import { IoCreateOutline } from "react-icons/io5";
 import {
     Navbar,
     NavbarBrand,
@@ -112,7 +113,14 @@ export default function App() {
             </NavbarContent>
             <NavbarContent justify="end">
                 {user ? (
-                    <>
+                    <div className="flex">
+                        <Link
+                            className="mr-4 cursor-pointer"
+                            as={RouterLink}
+                            to="/articles/create"
+                        >
+                            <IoCreateOutline size={30} />
+                        </Link>
                         <Dropdown>
                             <NavbarItem>
                                 <DropdownTrigger>
@@ -161,7 +169,7 @@ export default function App() {
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
-                    </>
+                    </div>
                 ) : (
                     <>
                         <NavbarItem className="hidden lg:flex">
