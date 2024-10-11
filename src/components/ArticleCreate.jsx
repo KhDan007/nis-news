@@ -68,7 +68,7 @@ export const ArticleCreate = () => {
 
     const editorOptions = {
         spellChecker: false,
-        autofocus: true,
+        autofocus: false,
         status: false, // Disable the status bar at the bottom
         toolbar: [
             "bold",
